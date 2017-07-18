@@ -6,7 +6,8 @@ import {render} from 'react-dom';
     this.state ={
       current: 1,
       value : '',
-      len: 5
+      len: 5,
+      pageSize: 10
     }
 
   }
@@ -14,12 +15,14 @@ import {render} from 'react-dom';
   handClick(num){
     this.setState({current:  num})
   }
-
+  len(e){
+      this.setState({len: e.target.value})
+  }
   handChange(e){
     this.setState({value: Number(e.target.value)})
   }
   selectChange(e){
-    this.setState({len: Number(e.target.value)})
+    this.setState({pageSize: Number(e.target.value)})
   }
   //下一页
   goNext(){
@@ -33,6 +36,13 @@ import {render} from 'react-dom';
     let cur =this.state.current;
     if(cur>1){
       this.setState({current: cur-1})
+    }
+  }
+  //参数
+  _parms(){
+    return {
+      current: this.state.current,
+      Page: this.state.pageSize
     }
   }
   //输入跳转
@@ -91,11 +101,12 @@ import {render} from 'react-dom';
                         <input type="text" value={this.state.value} onChange={this.handChange.bind(this)} />
                         页
                     </div>
-                    <select value={this.state.len+''} onChange={this.selectChange.bind(this)}>
+                    <select value={this.state.pageSize+''} onChange={this.selectChange.bind(this)}>
                       <option value='5'>5条/页</option>
                       <option value='10'>10条/页</option>
                       <option value='15'>15条/页</option>
                     </select>
+                     <span style={{marginLeft:10,marginRight:10}}>显示分页的长度</span><input value={this.state.len+''} onChange={this.len.bind(this)}/>
                     <a onClick={this.goPage.bind(this)} className="page-go">跳转</a>
                 </div>
   }
